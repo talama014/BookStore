@@ -10,12 +10,10 @@ type Book struct {
 	Quarantine     uint      `json:"quarantine"`
 	Publisher_date time.Time `json:"publisher_date"`
 	Description    string    `json:"description"`
-	AuthorID       uint      `json:"-"`
-	PublisherID    uint      `json:"-"`
 
-	PublishersRefer uint      `json:"-"`
-	Publishers      Publisher `json:"publisher,omitempty" gorm:"foreignKey:PublishersID;references:ID"`
+	PublishersID uint      `json:"publisher_id" grom:"-"`
+	Publishers   Publisher `json:"publisher,omitempty" gorm:"foreignKey:PublishersID;references:ID"`
 
-	AuthorRefer uint   `json:"-"`
-	Authors     Author `json:",omitempty" gorm:"foreignKey:AuthorID;references:ID"`
+	AuthorID uint   `json:"author_id" grom:"-"`
+	Authors  Author `json:"authors,omitempty" gorm:"foreignKey:AuthorID;references:ID"`
 }

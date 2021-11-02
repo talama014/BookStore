@@ -20,11 +20,15 @@ func (h BookModel) Book_Create(ctx *gin.Context) {
 		Total_pages:    0,
 		Isbn:           "chua cap nhat",
 		Publisher_date: time.Now(),
+		Quarantine:     1,
+		PublishersID:   1,
+		AuthorID:       1,
 	}
 
 	if err := ctx.BindJSON(&book); err != nil {
 		panic("CAN NOT BIND JSON INTO BOOK!!!")
 	}
+
 	h.DB.Create(&book)
 	ctx.JSON(http.StatusOK, &book)
 }
