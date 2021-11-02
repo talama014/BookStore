@@ -11,9 +11,9 @@ type Book struct {
 	Publisher_date time.Time `json:"publisher_date"`
 	Description    string    `json:"description"`
 
-	PublisherID uint      `json:"-" grom:"-"`
+	PublisherID uint
 	Publishers  Publisher `json:"publisher,omitempty" gorm:"foreignKey:PublisherID;references:ID"`
 
-	AuthorID uint   `json:"-" grom:"-"`
+	AuthorID uint
 	Authors  Author `json:"authors,omitempty" gorm:"foreignKey:AuthorID;references:ID"`
 }

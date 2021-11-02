@@ -27,11 +27,19 @@ func main() {
 	bHandler := models.BookModel{
 		DB: db,
 	}
+	aHandler := models.AuthorModel{
+		DB: db,
+	}
 
 	// tao sach moi
 	r.POST("/createbook", bHandler.Book_Create)
 	//Tim sach qua ID
 	r.GET("/getbook/:id", bHandler.FindBook)
+
+	// tao sach moi
+	r.GET("/createauthor", aHandler.Author_Create)
+	//Tim author qua ID
+	r.GET("/getauthor/:id", aHandler.FindAuthor)
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

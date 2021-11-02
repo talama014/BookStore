@@ -3,7 +3,6 @@ package models
 import (
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/BookStore/pkg/db"
 	"github.com/BookStore/pkg/entities"
@@ -12,29 +11,24 @@ import (
 	"gorm.io/gorm/clause"
 )
 
-type BookModel struct {
+type AuthorModel struct {
 	DB *gorm.DB
 }
 
-func (h BookModel) Book_Create(ctx *gin.Context) {
-	book := entities.Book{
-		Title:          "Unknown",
-		Total_pages:    0,
-		Isbn:           "chua cap nhat",
-		Publisher_date: time.Now(),
-		Quarantine:     1,
-		PublisherID:    1,
-		AuthorID:       1,
+func (h AuthorModel) Author_Create(ctx *gin.Context) {
+	author := entities.Author{
+		Name:        "Unknow",
+		Description: "",
 	}
 
-	if err := ctx.BindJSON(&book); err != nil {
+	if err := ctx.BindJSON(&author); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "can not bindJSON ! Check your JSON request",
 		})
 		return
 	}
-	if err := h.DB.Create(&book); err.Error != nil {
+	if err := h.DB.Create(&author); err.Error != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error":            true,
 			"message":          "can not bindJSON ! Check your JSON request",
@@ -42,11 +36,10 @@ func (h BookModel) Book_Create(ctx *gin.Context) {
 		})
 		return
 	}
-	h.DB.Preload(clause.Associations).Find(&book)
-	ctx.JSON(http.StatusOK, &book)
+	ctx.JSON(http.StatusOK, &author)
 }
 
-func (bookModel BookModel) FindBook(ctx *gin.Context) {
+func (authorModel AuthorModel) FindAuthor(ctx *gin.Context) {
 
 	id, err /*error*/ := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -58,8 +51,8 @@ func (bookModel BookModel) FindBook(ctx *gin.Context) {
 	}
 
 	db := db.GetDB()
-	var book entities.Book
-	db.Where("id = ?", id).Find(&book)
-	db.Preload(clause.Associations).Find(&book)
-	ctx.JSON(http.StatusOK, &book)
+	var author entities.Author
+	db.Where("id = ?", id).Find(&author)
+	db.Preload(clause.Associations).Find(&author)
+	ctx.JSON(http.StatusOK, &author)
 }
