@@ -19,7 +19,7 @@ func main() {
 
 	db := db.GetDB(db.AdminConn)
 
-	if err := db.AutoMigrate(&entities.Book{}, &entities.Author{}, &entities.Publisher{}); err != nil {
+	if err := db.AutoMigrate(&entities.Book{}, &entities.Author{}, &entities.Publisher{}, &entities.Genre{}); err != nil {
 		panic("can not auto migrate database")
 	}
 	// Ping

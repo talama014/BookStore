@@ -16,4 +16,6 @@ type Book struct {
 
 	AuthorID uint
 	Authors  Author `json:"author,omitempty" gorm:"foreignKey:AuthorID;references:ID"`
+
+	Genres []*Genre `gorm:"many2many:book_genre;"`
 }

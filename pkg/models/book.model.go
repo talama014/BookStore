@@ -2,6 +2,7 @@ package models
 
 import (
 	"net/http"
+	"reflect"
 	"strconv"
 	"time"
 
@@ -58,7 +59,7 @@ func (h BookModel) FindBook(ctx *gin.Context) {
 
 	book := entities.Book{}
 	h.DB.Where("id = ?", id).First(&book)
-	if (entities.Book{}) == book {
+	if reflect.DeepEqual((entities.Book{}), book) {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error":   true,
 			"message": "id: " + ctx.Param("id") + " khong ton tai",

@@ -27,12 +27,3 @@ func GetDB(conn DBConection) (db *gorm.DB) {
 	}
 	return db
 }
-
-// func GetDB(dbName, dbUserName, dbPassWord, dbTCP string) (db *gorm.DB) {
-// 	dsn := dbUserName + ":" + dbPassWord + "@tcp(" + dbTCP + ")/" + dbName + "?charset=utf8mb4&parseTime=True&loc=Local"
-// 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-// 	if err != nil {
-// 		return
-// 	}
-// 	return db
-// }
