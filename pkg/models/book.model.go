@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/BookStore/pkg/db"
 	"github.com/BookStore/pkg/entities"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -46,7 +45,7 @@ func (h BookModel) Book_Create(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &book)
 }
 
-func (bookModel BookModel) FindBook(ctx *gin.Context) {
+func (h BookModel) FindBook(ctx *gin.Context) {
 
 	id, err /*error*/ := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -57,9 +56,8 @@ func (bookModel BookModel) FindBook(ctx *gin.Context) {
 		return
 	}
 
-	db := db.GetDB()
-	var book entities.Book
-	db.Where("id = ?", id).Find(&book)
-	db.Preload(clause.Associations).Find(&book)
+	book := entities.Book{}
+	h.DB.Where("id = ?", id).Find(&book)
+	h.DB.Preload(clause.Associations).Find(&book)
 	ctx.JSON(http.StatusOK, &book)
 }
