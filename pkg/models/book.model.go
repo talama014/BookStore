@@ -36,7 +36,7 @@ func (h BookModel) Book_Create(ctx *gin.Context) {
 	if err := h.DB.Create(&book); err.Error != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error":            true,
-			"message":          "can not bindJSON ! Check your JSON request",
+			"message":          "can not CreateNewBook ! Check your JSON request",
 			"ErrorDescription": err.Error,
 		})
 		return
@@ -57,7 +57,14 @@ func (h BookModel) FindBook(ctx *gin.Context) {
 	}
 
 	book := entities.Book{}
-	h.DB.Where("id = ?", id).Find(&book)
-	h.DB.Preload(clause.Associations).Find(&book)
+	h.DB.Where("id = ?", id).First(&book)
+	if (entities.Book{}) == book {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error":   true,
+			"message": "id: " + ctx.Param("id") + " khong ton tai",
+		})
+		return
+	}
+	h.DB.Preload(clause.Associations).First(&book)
 	ctx.JSON(http.StatusOK, &book)
 }

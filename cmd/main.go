@@ -17,29 +17,30 @@ func pingHandler(c *gin.Context) {
 func main() {
 	r := gin.Default()
 
-	db := db.GetDB()
+	db := db.GetDB(db.AdminConn)
 
 	if err := db.AutoMigrate(&entities.Book{}, &entities.Author{}, &entities.Publisher{}); err != nil {
 		panic("can not auto migrate database")
 	}
 	// Ping
 	r.GET("/ping", pingHandler)
-	bHandler := models.BookModel{
-		DB: db,
-	}
-	aHandler := models.AuthorModel{
-		DB: db,
-	}
 
+	// Book----------------------
+	bookHandler := models.BookModel{
+		DB: db,
+	}
 	// tao sach moi
-	r.POST("/createbook", bHandler.Book_Create)
+	r.POST("/createbook", bookHandler.Book_Create)
 	//Tim sach qua ID
-	r.GET("/getbook/:id", bHandler.FindBook)
-
-	// tao sach moi
-	r.GET("/createauthor", aHandler.Author_Create)
+	r.GET("/getbook/:id", bookHandler.FindBook)
+	//Author---------------------
+	authorHandler := models.AuthorModel{
+		DB: db,
+	}
+	// tao author moi
+	r.GET("/createauthor", authorHandler.Author_Create)
 	//Tim author qua ID
-	r.GET("/getauthor/:id", aHandler.FindAuthor)
+	r.GET("/getauthor/:id", authorHandler.FindAuthor)
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

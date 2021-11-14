@@ -15,5 +15,5 @@ type Book struct {
 	Publishers  Publisher `json:"publisher,omitempty" gorm:"foreignKey:PublisherID;references:ID"`
 
 	AuthorID uint
-	Authors  Author `json:"authors,omitempty" gorm:"foreignKey:AuthorID;references:ID"`
+	Authors  Author `json:"author,omitempty" gorm:"foreignKey:AuthorID;references:ID"`
 }

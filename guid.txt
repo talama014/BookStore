@@ -1,0 +1,50 @@
+1> Tim sach qua ID 
+    - schema protocol: GET 
+    - url: localhost:8080/getbook/id "id cua sach can tim"
+    - note: neu id khong ton tai thi tra ve : 
+                {
+                 "error": true,
+                 "message": "id: - khong ton tai"
+                }
+2> Tim tac gia qua ID 
+    - schema protocol: GET 
+    - url: localhost:8080/getbook/id "id cua tac gia can tim"
+    - note: neu id khong ton tai thi tra ve : 
+                {
+                 "error": true,
+                 "message": "id: - khong ton tai"
+                }
+3> Tao sach moi 
+    1. Tao sach moi neu tac gia va nha xuat ban da ton tai
+        - schema protocol: POST
+        - url: localhost:8080/createbook
+        - body with raw JSON:
+        {
+            "title": "asch kiem tra chuong trinh 3",
+            "total_pages": 99,
+            "isbn": "APEX-233",
+            "quarantine": 128,
+            "description": "sach nay do Tai them de test 2",
+            "PublisherID": 2,
+            "AuthorID": 3
+        }
+    2. Tao sach moi neu tac gia va nha xuat ban moi  
+        - body with raw JSON:
+        {
+            "title": "ten sach",
+            "total_pages": so trang,
+            "isbn": "so isbn",
+            "quarantine": so luong,
+            "description": "noi dung sach",
+            "publisher": {
+                "name": "ten nha sach"
+                },
+            "author": {
+                "name": "ten tac gia",
+                "description": "noi dung"
+                }
+        }
+
+        he thong se them sach moi va tac gia cung nhu nha xuat ban moi vao database
+
+} 

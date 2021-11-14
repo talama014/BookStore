@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/BookStore/pkg/db"
 	"github.com/BookStore/pkg/entities"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -31,7 +30,7 @@ func (h AuthorModel) Author_Create(ctx *gin.Context) {
 	if err := h.DB.Create(&author); err.Error != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error":            true,
-			"message":          "can not bindJSON ! Check your JSON request",
+			"message":          "can not CreateNewAuthor! Check your JSON request",
 			"ErrorDescription": err.Error,
 		})
 		return
@@ -39,7 +38,7 @@ func (h AuthorModel) Author_Create(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, &author)
 }
 
-func (authorModel AuthorModel) FindAuthor(ctx *gin.Context) {
+func (h AuthorModel) FindAuthor(ctx *gin.Context) {
 
 	id, err /*error*/ := strconv.Atoi(ctx.Param("id"))
 	if err != nil {
@@ -49,10 +48,16 @@ func (authorModel AuthorModel) FindAuthor(ctx *gin.Context) {
 		})
 		return
 	}
-
-	db := db.GetDB()
-	var author entities.Author
-	db.Where("id = ?", id).Find(&author)
-	db.Preload(clause.Associations).Find(&author)
+	//"bookstore", "root", "example", "127.0.0.1:3306"
+	author := entities.Author{}
+	h.DB.Where("id = ?", id).First(&author)
+	if (entities.Author{}) == author {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error":   true,
+			"message": "id: " + ctx.Param("id") + " khong ton tai",
+		})
+		return
+	}
+	h.DB.Preload(clause.Associations).First(&author)
 	ctx.JSON(http.StatusOK, &author)
 }
