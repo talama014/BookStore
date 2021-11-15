@@ -38,9 +38,17 @@ func main() {
 		DB: db,
 	}
 	// tao author moi
-	r.GET("/createauthor", authorHandler.Author_Create)
+	r.POST("/createauthor", authorHandler.Author_Create)
 	//Tim author qua ID
 	r.GET("/getauthor/:id", authorHandler.FindAuthor)
+
+	publisherHandler := models.PublisherModel{
+		DB: db,
+	}
+	// tao publisher moi
+	r.POST("/createpublisher", publisherHandler.CreatePublisher)
+	//Tim publisher qua ID
+	r.GET("/getpublisher/:id", publisherHandler.FindPublisher)
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
