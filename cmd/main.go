@@ -50,5 +50,13 @@ func main() {
 	//Tim publisher qua ID
 	r.GET("/getpublisher/:id", publisherHandler.FindPublisher)
 
+	genreHandler := models.GenreModel{
+		DB: db,
+	}
+	// tao publisher moi
+	r.POST("/creategenre", genreHandler.CreateGenre)
+	//Tim publisher qua ID
+	r.GET("/getgenre/:id", genreHandler.FindGenre)
+
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }
